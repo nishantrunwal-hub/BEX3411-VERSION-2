@@ -238,21 +238,28 @@ function FilterDropdown({
   const isActive = value !== config.options[0]
 
   return (
-    <div style={{ position: 'relative', flexShrink: 0 }}>
+    <div
+      style={{ position: 'relative', flexShrink: 0, zIndex: isOpen ? 500 : 10 }}
+      // Stop map from intercepting touches
+      onTouchStart={e => e.stopPropagation()}
+      onTouchEnd={e => e.stopPropagation()}
+      onTouchMove={e => e.stopPropagation()}
+      onClick={e => e.stopPropagation()}
+    >
+      {/* Trigger */}
       <button
         onPointerDown={e => {
+          e.stopPropagation()
           e.preventDefault()
           setOpenId(isOpen ? null : id)
         }}
         style={{
           height: '34px',
           padding: '0 12px',
-          background: isActive || config.accent
-            ? C.accentDim
-            : 'rgba(10,10,10,0.88)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          border: `1px solid ${isActive || config.accent ? C.accent : 'rgba(255,255,255,0.18)'}`,
+          background: isActive || config.accent ? C.accentDim : 'rgba(10,10,10,0.92)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: `1px solid ${isActive || config.accent ? C.accent : 'rgba(255,255,255,0.2)'}`,
           borderRadius: '100px',
           display: 'flex',
           alignItems: 'center',
@@ -264,6 +271,7 @@ function FilterDropdown({
           color: isActive || config.accent ? C.accent : C.text,
           whiteSpace: 'nowrap',
           WebkitTapHighlightColor: 'transparent',
+          touchAction: 'manipulation',
         }}
       >
         {isActive ? value : config.label}
@@ -277,56 +285,73 @@ function FilterDropdown({
         />
       </button>
 
-      {/* Dropdown menu */}
+      {/* Dropdown — renders above everything */}
       {isOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 6px)',
-            left: 0,
-            minWidth: '160px',
-            background: '#1a1a1a',
-            border: `1px solid rgba(0,102,255,0.3)`,
-            borderRadius: '12px',
-            overflow: 'hidden',
-            zIndex: 200,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
-          }}
-        >
-          {config.options.map((opt, i) => (
-            <div
-              key={opt}
-              onPointerDown={e => {
-                e.preventDefault()
-                onChange(opt)
-                setOpenId(null)
-              }}
-              style={{
-                padding: '12px 14px',
-                background: value === opt
-                  ? C.accentDim
-                  : 'transparent',
-                borderBottom: i < config.options.length - 1
-                  ? `0.5px solid rgba(255,255,255,0.05)`
-                  : 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                cursor: 'pointer',
-                fontFamily: C.font,
-                fontSize: '13px',
-                fontWeight: value === opt ? 600 : 400,
-                color: value === opt ? C.accent : '#cccccc',
-                WebkitTapHighlightColor: 'transparent',
-              }}
-            >
-              {opt}
-              {value === opt && (
-                <Check size={13} color={C.accent} />
-              )}
-            </div>
-          ))}
-        </div>
+        <>
+          {/* Invisible backdrop to close */}
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 490,
+            }}
+            onPointerDown={e => {
+              e.stopPropagation()
+              setOpenId(null)
+            }}
+          />
+
+          {/* Menu */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 6px)',
+              left: 0,
+              minWidth: '170px',
+              background: '#1c1c1c',
+              border: `1px solid rgba(0,102,255,0.35)`,
+              borderRadius: '14px',
+              overflow: 'hidden',
+              zIndex: 500,
+              boxShadow: '0 12px 40px rgba(0,0,0,0.9)',
+            }}
+            onTouchStart={e => e.stopPropagation()}
+            onTouchEnd={e => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
+          >
+            {config.options.map((opt, i) => (
+              <div
+                key={opt}
+                onPointerDown={e => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                  onChange(opt)
+                  setOpenId(null)
+                }}
+                style={{
+                  padding: '13px 16px',
+                  background: value === opt ? C.accentDim : 'transparent',
+                  borderBottom: i < config.options.length - 1
+                    ? '0.5px solid rgba(255,255,255,0.06)'
+                    : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  fontFamily: C.font,
+                  fontSize: '13px',
+                  fontWeight: value === opt ? 600 : 400,
+                  color: value === opt ? C.accent : '#cccccc',
+                  WebkitTapHighlightColor: 'transparent',
+                  touchAction: 'manipulation',
+                }}
+              >
+                {opt}
+                {value === opt && <Check size={13} color={C.accent} />}
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   )

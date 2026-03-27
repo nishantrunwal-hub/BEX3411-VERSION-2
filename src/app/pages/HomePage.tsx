@@ -1,144 +1,362 @@
-import { Search, Filter, Compass, Settings2 } from 'lucide-react';
+import { TopHeader } from '../components/TopHeader';
 import { BottomNav } from '../components/BottomNav';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from '../components/ui/drawer';
-import { useState } from 'react';
+import { Shield, CheckCircle2 } from 'lucide-react';
 
-const mapPlaceholder = 'https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXAlMjB0b3Bwb2dyYXBoaWN8ZW58MHx8fHwxNzc0NTc4MDEw&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral';
+const heroImage = 'https://images.unsplash.com/photo-1760315972424-1637530daead?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBhdGhsZXRlcyUyMHJ1bm5pbmclMjBjaXR5fGVufDF8fHx8MTc3NDU3NjA0NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral';
 
 export default function HomePage() {
-  const [snap, setSnap] = useState<number | string | null>(0.3);
-
   return (
-    <div className="relative min-h-screen bg-zinc-950 w-full overflow-hidden">
-      {/* Full-screen Map Background */}
-      <img
-        src={mapPlaceholder}
-        alt="Map background"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-zinc-950/20 pointer-events-none"></div>
+    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+      <TopHeader />
 
-      {/* Top Search & Filters */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 safe-top mt-8">
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex-1 bg-zinc-900/90 backdrop-blur-md rounded-full px-4 py-3 flex items-center gap-2 border border-zinc-800">
-            <Search className="w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search trails, cities, parks..."
-              className="bg-transparent border-none outline-none text-white w-full placeholder:text-gray-500"
+      <div className="max-w-md mx-auto">
+        {/* Suggested Goal Section */}
+        <div className="p-4 border-b border-zinc-800">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Shield className="w-5 h-5 text-blue-500" />
+              <span className="text-white font-semibold">Suggested Goal</span>
+            </div>
+            <button className="text-blue-500 text-sm hover:text-blue-400">
+              Customize
+            </button>
+          </div>
+
+          {/* Goal Card */}
+          <div className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-zinc-800 rounded-full p-3">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  className="text-gray-400"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold text-lg">2 per week</h3>
+                <p className="text-gray-400 text-sm">0 / 2 runs completed</p>
+              </div>
+            </div>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-semibold">
+              Set Goal
+            </button>
+          </div>
+
+          {/* Dots indicator */}
+          <div className="flex justify-center gap-2 mt-4">
+            <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+            <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+          </div>
+        </div>
+
+        {/* Onboarding Section */}
+        <div className="p-4">
+          {/* Orange accent bar */}
+          <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full mb-4"></div>
+
+          <h2 className="text-white text-2xl font-bold mb-2">
+            You've joined the world's largest team!
+          </h2>
+          <p className="text-gray-400 mb-4">
+            Here's how to get started using ASCEND:
+          </p>
+
+          {/* Progress bar */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex-1 h-1 bg-zinc-800 rounded-full">
+              <div className="h-full w-0 bg-blue-500 rounded-full"></div>
+            </div>
+            <span className="text-gray-400 text-sm">0/4</span>
+          </div>
+
+          {/* Checklist items */}
+          <div className="space-y-3">
+            <ChecklistItem
+              icon="📱"
+              title="Upload your first activity"
+              description="You can record it right in the app."
+            />
+            <ChecklistItem
+              icon="👥"
+              title="Follow three people (0/3)"
+              description="Find friends and fan favorites to follow."
+            />
+            <ChecklistItem
+              icon="👤"
+              title="Add a profile picture"
+              description="This helps people know who you are."
+            />
+            <ChecklistItem
+              icon="⌚"
+              title="Connect a device"
+              description="Sync a watch or fitness tracker to seamlessly upload to ASCEND."
+              showButtons
             />
           </div>
-          <button className="bg-zinc-900/90 backdrop-blur-md p-3 rounded-full border border-zinc-800 flex items-center justify-center">
-            <Settings2 className="w-5 h-5 text-white" />
+        </div>
+
+        {/* Start Your Streak Section */}
+        <div className="mt-6">
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={heroImage}
+              alt="Athletes running"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center gap-4">
+              <div className="bg-zinc-900 rounded-full p-3">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="text-blue-500"
+                >
+                  <path
+                    d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth={1}
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-xl mb-1">
+                  Start your Streak
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  There's nothing like the satisfaction of an epic Streak – it
+                  takes one activity a week.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Who to Follow Section */}
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-bold text-xl">Who to Follow</h3>
+            <button className="text-blue-500 text-sm hover:text-blue-400">
+              See All
+            </button>
+          </div>
+
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+            <UserCard
+              name="Joseph Tinsley"
+              subtitle="Fan favorite on ASCEND"
+              imageUrl="https://images.unsplash.com/photo-1530279281203-4c60af01ee58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdGhsZXRlJTIwcG9ydHJhaXQlMjBtYWxlJTIwcHJvZmVzc2lvbmFsfGVufDF8fHx8MTc3NDU3NjY1M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            />
+            <UserCard
+              name="Sarah Mitchell"
+              subtitle="Fan favorite on ASCEND"
+              imageUrl="https://images.unsplash.com/photo-1554454019-8a165b8a3bd8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBydW5uZXIlMjBwb3J0cmFpdCUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzQ1NzY2NTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            />
+            <UserCard
+              name="Marcus Chen"
+              subtitle="Fan favorite on ASCEND"
+              imageUrl="https://images.unsplash.com/photo-1600492110240-63958f19b8b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWNsaXN0JTIwcG9ydHJhaXQlMjBtYWxlfGVufDF8fHx8MTc3NDU3NjY1M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            />
+          </div>
+        </div>
+
+        {/* Suggested Challenges Section */}
+        <div className="p-4 mt-4">
+          <h3 className="text-white font-bold text-xl mb-2">
+            Suggested Challenges
+          </h3>
+          <p className="text-gray-400 text-sm mb-4">
+            Make accountability a little easier, more fun and earn rewards!
+          </p>
+
+          <div className="bg-zinc-900 rounded-xl p-5">
+            <p className="text-gray-400 text-sm mb-4">
+              More than 1,225,000 athletes have already joined
+            </p>
+
+            <div className="flex items-start gap-4 mb-4">
+              <div className="bg-blue-500/10 border-2 border-blue-500 rounded-2xl p-4 flex-shrink-0">
+                <div className="text-center">
+                  <div className="text-blue-400 font-bold text-3xl">400</div>
+                  <div className="text-blue-400 text-xs">MINS</div>
+                </div>
+              </div>
+
+              <div className="flex-1">
+                <h4 className="text-white font-bold text-lg mb-1">
+                  March 400-minute x Runna Challenge
+                </h4>
+                <p className="text-gray-400 text-sm mb-2">
+                  Log 400 mins of movement. Unlock 2 weeks free + win a Hawaii
+                  race trip!
+                </p>
+                <div className="inline-block bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">
+                  Reward
+                </div>
+              </div>
+            </div>
+
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-semibold">
+              Join Challenge
+            </button>
+          </div>
+
+          <button className="w-full text-blue-500 hover:text-blue-400 font-semibold mt-4">
+            Explore All Challenges
           </button>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-          <FilterPill label="Running" active />
-          <FilterPill label="Hiking" />
-          <FilterPill label="Cycling" />
-          <FilterPill label="Wheelchair friendly" />
-          <FilterPill label="Dog friendly" />
+        {/* Recommended Members */}
+        <div className="p-4 mt-4">
+          <h3 className="text-white font-bold text-xl mb-4">
+            Recommended for you - check out these popular ASCEND members to stay
+            motivated:
+          </h3>
+
+          <div className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
+                  alt="William Goodge"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
+                />
+                <div className="absolute -top-1 -right-1 bg-blue-500 rounded-full w-5 h-5 flex items-center justify-center">
+                  <CheckCircle2 className="w-3 h-3 text-white" />
+                </div>
+              </div>
+              <div>
+                <h4 className="text-white font-semibold">William Goodge</h4>
+                <p className="text-gray-400 text-sm">Today · Minato, Japan</p>
+              </div>
+            </div>
+            <button className="text-gray-400 hover:text-white">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <circle cx="10" cy="4" r="1.5" />
+                <circle cx="10" cy="10" r="1.5" />
+                <circle cx="10" cy="16" r="1.5" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-zinc-800">
+            <h4 className="text-white font-bold text-lg mb-2">Evening Run</h4>
+          </div>
         </div>
       </div>
-
-      {/* Bottom Sheet Drawer */}
-      <Drawer
-        open={true}
-        snapPoints={[0.15, 0.5, 0.9]}
-        activeSnapPoint={snap}
-        setActiveSnapPoint={setSnap}
-        modal={false}
-        dismissible={false}
-      >
-        <DrawerContent className="bg-zinc-900 border-t border-zinc-800 h-full max-h-[90vh]">
-          <DrawerHeader className="pb-2">
-            <DrawerTitle className="text-white">Discover nearby</DrawerTitle>
-            <DrawerDescription className="text-gray-400">
-              Popular trails around your location
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4 overflow-y-auto space-y-4 pb-32 no-scrollbar">
-            <TrailCard
-              title="Griffith Observatory Trail"
-              info="Running • 4.2 mi • Moderate"
-              rating="4.8"
-              image="https://images.unsplash.com/photo-1544085311-12501a35dc6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmlmZml0aCUyMG9ic2VydmF0b3J5JTIwaGlrZXxlbnwwfHx8fDE3NzQ1NzgwMTA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-            />
-            <TrailCard
-              title="Runyon Canyon Loop"
-              info="Hiking • 2.7 mi • Hard"
-              rating="4.6"
-              image="https://images.unsplash.com/photo-1517457788880-0d3f237f374c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHhydW55b24lMjBjYW55b258ZW58MHx8fHwxNzc0NTc4MDEw&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-            />
-            <TrailCard
-              title="Santa Monica Beach Path"
-              info="Cycling • 8.5 mi • Easy"
-              rating="4.9"
-              image="https://images.unsplash.com/photo-1559863897-400dcd2071aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYW50YSUyMG1vbmljYSUyMGJlYWNofGVufDB8fHx8MTc3NDU3ODAxMA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-            />
-          </div>
-        </DrawerContent>
-      </Drawer>
 
       <BottomNav />
     </div>
   );
 }
 
-function FilterPill({ label, active }: { label: string; active?: boolean }) {
+function ChecklistItem({
+  icon,
+  title,
+  description,
+  showButtons = false,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+  showButtons?: boolean;
+}) {
   return (
-    <button
-      className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-        active
-          ? 'bg-blue-600 text-white'
-          : 'bg-zinc-900/90 text-gray-300 border border-zinc-800'
-      }`}
-    >
-      {label}
-    </button>
+    <div className="bg-zinc-900 rounded-lg p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3 flex-1">
+          <div className="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-2xl">{icon}</span>
+          </div>
+          <div className="flex-1">
+            <h4 className="text-white font-semibold mb-1">{title}</h4>
+            <p className="text-gray-400 text-sm">{description}</p>
+          </div>
+        </div>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          className="text-gray-500 flex-shrink-0 ml-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M7 10l3 3 3-3"
+            transform="rotate(-90 10 10)"
+          />
+        </svg>
+      </div>
+
+      {showButtons && (
+        <div className="flex gap-3 mt-3">
+          <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-full text-sm font-semibold">
+            Connect
+          </button>
+          <button className="flex-1 border border-blue-600 text-blue-500 hover:bg-blue-600/10 py-2 rounded-full text-sm font-semibold">
+            I don't have one
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
-function TrailCard({
-  title,
-  info,
-  rating,
-  image,
+function UserCard({
+  name,
+  subtitle,
+  imageUrl,
 }: {
-  title: string;
-  info: string;
-  rating: string;
-  image: string;
+  name: string;
+  subtitle: string;
+  imageUrl: string;
 }) {
   return (
-    <div className="flex gap-3 bg-zinc-950 p-3 rounded-2xl border border-zinc-900">
-      <img
-        src={image}
-        alt={title}
-        className="w-24 h-24 rounded-xl object-cover"
-      />
-      <div className="flex-1 flex flex-col justify-center">
-        <h4 className="text-white font-bold leading-tight mb-1">{title}</h4>
-        <p className="text-gray-400 text-sm mb-2">{info}</p>
-        <div className="flex items-center gap-1">
-          <svg
-            className="w-4 h-4 text-yellow-500"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <span className="text-white text-sm font-semibold">{rating}</span>
+    <div className="bg-zinc-900 rounded-xl p-4 flex flex-col items-center min-w-[260px]">
+      <div className="relative mb-3">
+        <div className="w-24 h-24 rounded-lg overflow-hidden border-4 border-blue-500">
+          <img
+            src={imageUrl}
+            alt={name}
+            className="w-full h-full object-cover"
+          />
         </div>
+        <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full w-6 h-6 flex items-center justify-center">
+          <CheckCircle2 className="w-4 h-4 text-white" />
+        </div>
+      </div>
+
+      <h4 className="text-white font-bold text-center mb-1">{name}</h4>
+      <p className="text-gray-400 text-sm text-center mb-4">{subtitle}</p>
+
+      <div className="flex gap-2 w-full">
+        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-full text-sm font-semibold">
+          Follow
+        </button>
+        <button className="flex-1 border border-zinc-700 text-gray-300 hover:bg-zinc-800 py-2 rounded-full text-sm font-semibold">
+          Remove
+        </button>
       </div>
     </div>
   );

@@ -35,19 +35,9 @@ export default function ProfilePage() {
           </div>
           <h2 className="text-white text-2xl font-bold mb-1">Your Profile</h2>
           <p className="text-gray-400 mb-4">Athlete on ASCEND</p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold mb-6">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold">
             Edit Profile
           </button>
-          
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-left">
-            <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
-              <Target className="w-5 h-5 text-blue-500" />
-              Ascend Mission
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              To empower every athlete to ascend to their peak potential through community, exploration, and relentless progress.
-            </p>
-          </div>
         </div>
 
         {/* Stats */}

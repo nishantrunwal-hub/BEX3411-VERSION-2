@@ -355,7 +355,7 @@ function ChallengeCard({ challenge }: { challenge: typeof challenges[0] }) {
       style={{
         background: C.card,
         borderRadius: '16px',
-        border: \`0.5px solid \${C.border}\`,
+        border: `0.5px solid ${C.border}`,
         padding: '16px',
         display: 'flex',
         flexDirection: 'column',
@@ -371,7 +371,7 @@ function ChallengeCard({ challenge }: { challenge: typeof challenges[0] }) {
             height: '60px',
             borderRadius: '12px',
             background: challenge.badgeColor,
-            border: \`1px solid rgba(0,102,255,0.2)\`,
+            border: `1px solid rgba(0,102,255,0.2)`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -441,7 +441,7 @@ function ChallengeCard({ challenge }: { challenge: typeof challenges[0] }) {
           width: '100%',
           height: '46px',
           background: joined ? C.accentDim : C.accent,
-          border: \`1px solid \${C.accent}\`,
+          border: `1px solid ${C.accent}`,
           borderRadius: '100px',
           fontFamily: C.font,
           fontWeight: 600,
@@ -471,7 +471,7 @@ function ClubCard({ club }: { club: typeof clubs[0] }) {
       style={{
         background: C.card,
         borderRadius: '16px',
-        border: \`0.5px solid \${C.border}\`,
+        border: `0.5px solid ${C.border}`,
         padding: '16px',
         display: 'flex',
         flexDirection: 'column',
@@ -485,7 +485,7 @@ function ClubCard({ club }: { club: typeof clubs[0] }) {
           height: '56px',
           borderRadius: '10px',
           background: C.card2,
-          border: \`0.5px solid \${C.border}\`,
+          border: `0.5px solid ${C.border}`,
           overflow: 'hidden',
           flexShrink: 0,
         }}
@@ -541,7 +541,7 @@ function ClubCard({ club }: { club: typeof clubs[0] }) {
           width: '100%',
           height: '46px',
           background: joined ? C.accentDim : C.accent,
-          border: \`1px solid \${C.accent}\`,
+          border: `1px solid ${C.accent}`,
           borderRadius: '100px',
           fontFamily: C.font,
           fontWeight: 600,
@@ -629,7 +629,7 @@ function ExploreTab() {
             height: '52px',
             background: C.card,
             borderRadius: '100px',
-            border: \`1px solid \${isFocused ? C.accent : 'rgba(255,255,255,0.15)'}\`,
+            border: `1px solid ${isFocused ? C.accent : 'rgba(255,255,255,0.15)'}`,
             padding: '0 16px',
             transition: 'border-color 200ms ease',
           }}
@@ -752,7 +752,7 @@ function ExploreTab() {
                   height: '36px',
                   padding: '0 16px',
                   background: 'rgba(255,255,255,0.06)',
-                  border: \`0.5px solid rgba(255,255,255,0.12)\`,
+                  border: `0.5px solid rgba(255,255,255,0.12)`,
                   borderRadius: '100px',
                   fontFamily: C.font,
                   fontSize: '13px',
@@ -780,7 +780,7 @@ function ExploreTab() {
             margin: '0 0 12px 0',
           }}
         >
-          {query ? \`Results for "\${query}"\` : 'Popular searches'}
+          {query ? `Results for "${query}"` : 'Popular searches'}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
@@ -793,7 +793,7 @@ function ExploreTab() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '13px 4px',
-                borderBottom: \`0.5px solid \${C.border}\`,
+                borderBottom: `0.5px solid ${C.border}`,
                 cursor: 'pointer',
                 WebkitTapHighlightColor: 'transparent',
               }}
@@ -804,7 +804,7 @@ function ExploreTab() {
                   height: '36px',
                   borderRadius: '10px',
                   background: C.card2,
-                  border: \`0.5px solid \${C.border}\`,
+                  border: `0.5px solid ${C.border}`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -885,8 +885,8 @@ export default function GroupsPage() {
           background: 'rgba(10,10,10,0.96)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: \`0.5px solid \${C.border}\`,
-          paddingTop: \`env(safe-area-inset-top)\`,
+          borderBottom: `0.5px solid ${C.border}`,
+          paddingTop: `env(safe-area-inset-top)`,
         }}
       >
         {/* Title row */}
@@ -919,7 +919,7 @@ export default function GroupsPage() {
         <div
           style={{
             display: 'flex',
-            borderBottom: \`0.5px solid \${C.border}\`,
+            borderBottom: `0.5px solid ${C.border}`,
           }}
         >
           {['active', 'challenges', 'clubs', 'explore'].map(tab => (
@@ -931,7 +931,7 @@ export default function GroupsPage() {
                 padding: '10px 0 12px',
                 background: 'transparent',
                 border: 'none',
-                borderBottom: \`2px solid \${activeTab === tab ? C.accent : 'transparent'}\`,
+                borderBottom: `2px solid ${activeTab === tab ? C.accent : 'transparent'}`,
                 fontFamily: C.font,
                 fontSize: '14px',
                 fontWeight: activeTab === tab ? 600 : 400,
@@ -969,9 +969,9 @@ export default function GroupsPage() {
                   background: activeActivity === filter.id
                     ? C.accentDim
                     : 'rgba(255,255,255,0.06)',
-                  border: \`1px solid \${activeActivity === filter.id
+                  border: `1px solid ${activeActivity === filter.id
                     ? C.accent
-                    : 'rgba(255,255,255,0.12)'}\`,
+                    : 'rgba(255,255,255,0.12)'}`,
                   borderRadius: '100px',
                   display: 'flex',
                   alignItems: 'center',
@@ -1121,8 +1121,8 @@ export default function GroupsPage() {
           background: 'rgba(10,10,10,0.97)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderTop: \`0.5px solid \${C.border}\`,
-          paddingBottom: \`env(safe-area-inset-bottom)\`,
+          borderTop: `0.5px solid ${C.border}`,
+          paddingBottom: `env(safe-area-inset-bottom)`,
           display: 'flex',
           alignItems: 'center',
           height: 'calc(60px + env(safe-area-inset-bottom))',
@@ -1161,7 +1161,7 @@ export default function GroupsPage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: \`0 0 20px rgba(0,102,255,0.4)\`,
+                    boxShadow: `0 0 20px rgba(0,102,255,0.4)`,
                     marginTop: '-8px',
                   }}
                 >

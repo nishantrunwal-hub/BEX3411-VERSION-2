@@ -1,9 +1,232 @@
+import React, { useState, useRef } from 'react';
 import { TopHeader } from '../components/TopHeader';
 import { BottomNav } from '../components/BottomNav';
-import { Shield, CheckCircle2 } from 'lucide-react';
+import { Shield, CheckCircle2, Zap, TrendingUp, Clock } from 'lucide-react';
 
 const heroImage = 'https://images.unsplash.com/photo-1760315972424-1637530daead?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBhdGhsZXRlcyUyMHJ1bm5pbmclMjBjaXR5fGVufDF8fHx8MTc3NDU3NjA0NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral';
 
+const C = {
+  bg:        '#0a0a0a',
+  card:      '#141414',
+  card2:     '#1a1a1a',
+  accent:    '#0066FF',
+  accentDim: 'rgba(0,102,255,0.15)',
+  border:    'rgba(255,255,255,0.08)',
+  text:      '#ffffff',
+  muted:     '#8A8A8A',
+  dim:       '#444444',
+  font:      'Inter, sans-serif',
+  mono:      'Space Mono, monospace',
+  display:   'Bebas Neue, sans-serif',
+}
+
+function SuggestedGoal() {
+  const goals = [
+    {
+      icon: Zap,
+      label: '2 per week',
+      sub: '0 / 2 runs completed',
+    },
+    {
+      icon: TrendingUp,
+      label: '50km month',
+      sub: '0 / 50km logged',
+    },
+    {
+      icon: Clock,
+      label: '5h training',
+      sub: '0 / 5hrs this week',
+    },
+  ]
+
+  const [current, setCurrent] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const touchStartX = useRef<number | null>(null)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return
+    const delta = e.changedTouches[0].clientX - touchStartX.current
+    if (delta < -40 && current < goals.length - 1) {
+      setCurrent(p => p + 1)
+    } else if (delta > 40 && current > 0) {
+      setCurrent(p => p - 1)
+    }
+    touchStartX.current = null
+  }
+
+  return (
+    <div
+      style={{
+        background: C.bg,
+        borderBottom: `0.5px solid ${C.border}`,
+        padding: '16px',
+        marginBottom: '4px',
+      }}
+    >
+      {/* Header row */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '14px',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div
+            style={{
+              width: '28px',
+              height: '28px',
+              borderRadius: '50%',
+              background: C.accentDim,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Zap size={14} color={C.accent} />
+          </div>
+          <span
+            style={{
+              fontFamily: C.font,
+              fontWeight: 600,
+              fontSize: '14px',
+              color: C.text,
+            }}
+          >
+            Suggested Goal
+          </span>
+        </div>
+        <span
+          style={{
+            fontFamily: C.font,
+            fontSize: '13px',
+            color: C.accent,
+            fontWeight: 500,
+            cursor: 'pointer',
+          }}
+        >
+          Customize
+        </span>
+      </div>
+
+      {/* Swipeable card */}
+      <div
+        ref={scrollRef}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          background: C.card,
+          borderRadius: '14px',
+          border: `0.5px solid ${C.border}`,
+          padding: '14px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+          userSelect: 'none',
+          touchAction: 'pan-y',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          {/* Icon circle */}
+          <div
+            style={{
+              width: '52px',
+              height: '52px',
+              borderRadius: '50%',
+              background: '#222222',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            {React.createElement(goals[current].icon, {
+              size: 22,
+              color: C.muted,
+            })}
+          </div>
+
+          <div>
+            <p
+              style={{
+                fontFamily: C.font,
+                fontWeight: 700,
+                fontSize: '20px',
+                color: C.text,
+                margin: 0,
+                lineHeight: 1.1,
+              }}
+            >
+              {goals[current].label}
+            </p>
+            <p
+              style={{
+                fontFamily: C.font,
+                fontSize: '13px',
+                color: C.muted,
+                margin: '3px 0 0 0',
+              }}
+            >
+              {goals[current].sub}
+            </p>
+          </div>
+        </div>
+
+        {/* Set Goal button */}
+        <button
+          style={{
+            background: C.accent,
+            border: 'none',
+            borderRadius: '100px',
+            padding: '12px 20px',
+            fontFamily: C.font,
+            fontWeight: 600,
+            fontSize: '15px',
+            color: '#ffffff',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+          }}
+        >
+          Set Goal
+        </button>
+      </div>
+
+      {/* Dot indicators */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '6px',
+          marginTop: '14px',
+        }}
+      >
+        {goals.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            style={{
+              width: i === current ? '20px' : '7px',
+              height: '7px',
+              borderRadius: '100px',
+              background: i === current ? C.accent : '#333333',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'all 250ms ease',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white pb-16">
@@ -11,54 +234,7 @@ export default function HomePage() {
 
       <div className="max-w-md mx-auto">
         {/* Suggested Goal Section */}
-        <div className="p-4 border-b border-zinc-800">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-blue-500" />
-              <span className="text-white font-semibold">Suggested Goal</span>
-            </div>
-            <button className="text-blue-500 text-sm hover:text-blue-400">
-              Customize
-            </button>
-          </div>
-
-          {/* Goal Card */}
-          <div className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="bg-zinc-800 rounded-full p-3">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  className="text-gray-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-lg">2 per week</h3>
-                <p className="text-gray-400 text-sm">0 / 2 runs completed</p>
-              </div>
-            </div>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-semibold">
-              Set Goal
-            </button>
-          </div>
-
-          {/* Dots indicator */}
-          <div className="flex justify-center gap-2 mt-4">
-            <div className="w-2 h-2 rounded-full bg-gray-600"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-600"></div>
-            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-          </div>
-        </div>
+        <SuggestedGoal />
 
         {/* Onboarding Section */}
         <div className="p-4">
@@ -66,10 +242,10 @@ export default function HomePage() {
           <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full mb-4"></div>
 
           <h2 className="text-white text-2xl font-bold mb-2">
-            You've joined the world's largest team!
+            For athletes who push limits
           </h2>
           <p className="text-gray-400 mb-4">
-            Here's how to get started using ASCEND:
+            Here's how to get started with Ascent:
           </p>
 
           {/* Progress bar */}

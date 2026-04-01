@@ -1,38 +1,32 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Home, Map, Radio, Users, BarChart2 } from 'lucide-react'
 
-const C = {
-  bg:      '#0a0a0a',
-  accent:  '#0066FF',
-  border:  'rgba(255,255,255,0.08)',
-  dim:     '#444444',
-  font:    'Inter, sans-serif',
-}
-
 const tabs = [
-  { id: 'home',   label: 'Home',   icon: Home,     path: '/'        },
-  { id: 'maps',   label: 'Maps',   icon: Map,      path: '/maps'    },
-  { id: 'record', label: 'Record', icon: Radio,    path: '/record'  },
-  { id: 'groups', label: 'Groups', icon: Users,    path: '/groups'  },
-  { id: 'you',    label: 'You',    icon: BarChart2, path: '/profile'},
+  { id: 'home',   label: 'Home',   icon: Home,      path: '/home'   },
+  { id: 'maps',   label: 'Maps',   icon: Map,       path: '/maps'   },
+  { id: 'record', label: 'Record', icon: Radio,     path: '/record' },
+  { id: 'groups', label: 'Groups', icon: Users,     path: '/groups' },
+  { id: 'you',    label: 'You',    icon: BarChart2,  path: '/profile'},
 ]
 
 export default function BottomTabBar() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Determine active tab from current path
-  const getActiveTab = () => {
-    const path = location.pathname
-    if (path === '/maps')    return 'maps'
-    if (path === '/groups')  return 'groups'
-    if (path === '/')        return 'home'
-    if (path === '/record')  return 'record'
-    if (path === '/profile') return 'you'
-    return 'home'
+  const activeTab = () => {
+    switch (location.pathname) {
+      case '/home':        return 'home'
+      case '/maps':        return 'maps'
+      case '/groups':      return 'groups'
+      case '/activities':  return 'maps' // from user
+      case '/community':   return 'groups' // from user
+      case '/record':      return 'record'
+      case '/profile':     return 'you'
+      default:             return 'home'
+    }
   }
 
-  const activeTab = getActiveTab()
+  const active = activeTab()
 
   return (
     <div
@@ -41,25 +35,28 @@ export default function BottomTabBar() {
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 9999,              // always on top of everything
+        zIndex: 9999,
         background: 'rgba(10,10,10,0.97)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        borderTop: `0.5px solid ${C.border}`,
-        paddingBottom: `env(safe-area-inset-bottom)`,
+        borderTop: '0.5px solid rgba(255,255,255,0.08)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
         display: 'flex',
         alignItems: 'center',
         height: 'calc(60px + env(safe-area-inset-bottom))',
       }}
     >
       {tabs.map(tab => {
-        const isActive = activeTab === tab.id
-        const isRecord = tab.id === 'record'
+        const isActive  = active === tab.id
+        const isRecord  = tab.id === 'record'
+        const Icon      = tab.icon
 
         return (
           <button
             key={tab.id}
-            onClick={() => navigate(tab.path)}
+            onClick={() => {
+              if (tab.path) navigate(tab.path)
+            }}
             style={{
               flex: 1,
               display: 'flex',
@@ -73,6 +70,7 @@ export default function BottomTabBar() {
               cursor: 'pointer',
               WebkitTapHighlightColor: 'transparent',
               padding: 0,
+              outline: 'none',
             }}
           >
             {isRecord ? (
@@ -81,7 +79,7 @@ export default function BottomTabBar() {
                   width: '46px',
                   height: '46px',
                   borderRadius: '50%',
-                  background: C.accent,
+                  background: '#0066FF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -89,20 +87,20 @@ export default function BottomTabBar() {
                   marginTop: '-8px',
                 }}
               >
-                <tab.icon size={20} color="#ffffff" />
+                <Icon size={20} color="#ffffff" />
               </div>
             ) : (
               <>
-                <tab.icon
+                <Icon
                   size={22}
-                  color={isActive ? C.accent : C.dim}
+                  color={isActive ? '#0066FF' : '#444444'}
                 />
                 <span
                   style={{
-                    fontFamily: C.font,
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
                     fontWeight: isActive ? 600 : 400,
-                    color: isActive ? C.accent : C.dim,
+                    color: isActive ? '#0066FF' : '#444444',
                   }}
                 >
                   {tab.label}

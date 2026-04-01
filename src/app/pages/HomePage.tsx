@@ -229,7 +229,7 @@ function SuggestedGoal() {
 }
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+    <div className="min-h-screen bg-zinc-950 text-white" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 60px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 60px)' }}>
       <TopHeader />
 
       <div className="max-w-md mx-auto">
@@ -439,7 +439,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

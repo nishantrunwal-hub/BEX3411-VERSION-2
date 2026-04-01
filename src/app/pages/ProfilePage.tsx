@@ -24,7 +24,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+    <div className="min-h-screen bg-zinc-950 text-white" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 60px)' }}>
       <TopHeader />
 
       <div className="max-w-md mx-auto">
@@ -91,7 +91,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

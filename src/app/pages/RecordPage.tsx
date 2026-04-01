@@ -21,7 +21,7 @@ export default function RecordPage() {
   const [selectedActivity, setSelectedActivity] = useState(activities[0]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+    <div className="min-h-screen bg-zinc-950 text-white" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 60px)' }}>
       <TopHeader />
 
       <div className="max-w-md mx-auto p-6">
@@ -119,7 +119,6 @@ export default function RecordPage() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

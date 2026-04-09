@@ -28,15 +28,6 @@ export function TopHeader() {
         </div>
       </div>
 
-      {/* Status bar simulation */}
-      <div className="absolute top-0 left-0 right-0 h-9 bg-zinc-950 flex items-center justify-between px-4 text-white text-sm -translate-y-full">
-        <span>22:19 ↗</span>
-        <div className="flex items-center gap-1">
-          <span className="text-xs">▂▃▅▆</span>
-          <span className="text-xs">📶</span>
-          <span className="px-1.5 py-0.5 bg-white/20 rounded text-xs">34</span>
-        </div>
-      </div>
     </header>
   );
 }

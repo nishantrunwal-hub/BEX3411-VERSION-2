@@ -1,11 +1,11 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, Map, Radio, Users, BarChart2 } from 'lucide-react'
+import { Home, Map, Radio, Trophy, BarChart2 } from 'lucide-react'
 
 const tabs = [
   { id: 'home',   label: 'Home',   icon: Home,      path: '/home'   },
   { id: 'maps',   label: 'Maps',   icon: Map,       path: '/maps'   },
   { id: 'record', label: 'Record', icon: Radio,     path: '/record' },
-  { id: 'groups', label: 'Groups', icon: Users,     path: '/groups' },
+  { id: 'challenges', label: 'Challenges', icon: Trophy, path: '/groups' },
   { id: 'you',    label: 'You',    icon: BarChart2,  path: '/profile'},
 ]
 
@@ -17,9 +17,9 @@ export default function BottomTabBar() {
     switch (location.pathname) {
       case '/home':        return 'home'
       case '/maps':        return 'maps'
-      case '/groups':      return 'groups'
+      case '/groups':      return 'challenges'
       case '/activities':  return 'maps' // from user
-      case '/community':   return 'groups' // from user
+      case '/community':   return 'challenges' // from user
       case '/record':      return 'record'
       case '/profile':     return 'you'
       default:             return 'home'

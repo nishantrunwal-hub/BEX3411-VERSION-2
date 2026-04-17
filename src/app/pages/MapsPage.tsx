@@ -181,6 +181,97 @@ const nearbyRoutes = [
   },
 ]
 
+const challengeZones = [
+  {
+    id: 1,
+    name: 'Yarra River 10K Challenge',
+    type: 'Running',
+    difficulty: 'Easy',
+    badge: '🏅',
+    participants: '2,847',
+    distance: '10km',
+    timeLeft: '14 days left',
+    coordinates: [
+      [144.952, -37.822],
+      [144.956, -37.818],
+      [144.961, -37.814],
+      [144.966, -37.811],
+      [144.970, -37.814],
+      [144.968, -37.820],
+      [144.963, -37.823],
+      [144.957, -37.825],
+      [144.952, -37.822],
+    ] as [number, number][],
+    centerCoord: [144.961, -37.818] as [number, number],
+    color: '#0066FF',
+  },
+  {
+    id: 2,
+    name: 'Dandenong Ultra Challenge',
+    type: 'Trail Running',
+    difficulty: 'Hard',
+    badge: '⚡',
+    participants: '892',
+    distance: '50km',
+    timeLeft: '21 days left',
+    coordinates: [
+      [145.322, -37.862],
+      [145.330, -37.856],
+      [145.340, -37.854],
+      [145.346, -37.860],
+      [145.342, -37.868],
+      [145.333, -37.872],
+      [145.324, -37.868],
+      [145.322, -37.862],
+    ] as [number, number][],
+    centerCoord: [145.334, -37.863] as [number, number],
+    color: '#FF3B3B',
+  },
+  {
+    id: 3,
+    name: 'Capital City Cycling Loop',
+    type: 'Cycling',
+    difficulty: 'Moderate',
+    badge: '🚴',
+    participants: '1,456',
+    distance: '29km',
+    timeLeft: '7 days left',
+    coordinates: [
+      [144.962, -37.792],
+      [144.972, -37.787],
+      [144.982, -37.790],
+      [144.986, -37.797],
+      [144.980, -37.804],
+      [144.970, -37.806],
+      [144.962, -37.800],
+      [144.962, -37.792],
+    ] as [number, number][],
+    centerCoord: [144.974, -37.797] as [number, number],
+    color: '#00E5A0',
+  },
+  {
+    id: 4,
+    name: 'St Kilda Sprint Series',
+    type: 'Running',
+    difficulty: 'Easy',
+    badge: '⭐',
+    participants: '3,201',
+    distance: '5km',
+    timeLeft: '3 days left',
+    coordinates: [
+      [144.972, -37.860],
+      [144.977, -37.856],
+      [144.983, -37.858],
+      [144.985, -37.864],
+      [144.980, -37.869],
+      [144.974, -37.867],
+      [144.972, -37.860],
+    ] as [number, number][],
+    centerCoord: [144.979, -37.863] as [number, number],
+    color: '#F5A623',
+  },
+]
+
 // --- DROPDOWN DATA ---
 const filterDropdowns = {
   routes: {
@@ -535,6 +626,8 @@ export default function MapsPage() {
   const [activeTab, setActiveTab] = useState('maps')
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [selectedRoute, setSelectedRoute] = useState<number | null>(null)
+  const [selectedZone, setSelectedZone] = useState<number | null>(null)
+  const [showZones, setShowZones] = useState(true)
   const [filterValues, setFilterValues] = useState<Record<string, string>>({
     routes: 'All Routes',
     length: 'Any Length',
@@ -568,6 +661,24 @@ export default function MapsPage() {
       }}
       onClick={handleMapTap}
     >
+      <style>{`
+        @keyframes zonePulse {
+          0%   { transform: scale(1);   opacity: 0.4; }
+          100% { transform: scale(1.4); opacity: 0;   }
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.3; }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0);   }
+        }
+        @keyframes pulse {
+          0%   { transform: scale(1);   opacity: 0.6; }
+          100% { transform: scale(2.5); opacity: 0;   }
+        }
+      `}</style>
 
       {/* REAL MAPLIBRE MAP */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
@@ -587,6 +698,17 @@ export default function MapsPage() {
               color={selectedRoute === route.id ? '#0066FF' : 'rgba(0,102,255,0.5)'}
               width={selectedRoute === route.id ? 4 : 2.5}
               opacity={selectedRoute === route.id ? 1 : 0.7}
+            />
+          ))}
+
+          {/* Challenge zone filled routes — pulsing active zones */}
+          {showZones && challengeZones.map(zone => (
+            <MapRoute
+              key={`zone-${zone.id}`}
+              coordinates={zone.coordinates}
+              color={selectedZone === zone.id ? zone.color : zone.color}
+              width={selectedZone === zone.id ? 5 : 3}
+              opacity={selectedZone === zone.id ? 1 : 0.65}
             />
           ))}
 
@@ -642,6 +764,90 @@ export default function MapsPage() {
                   {route.distance}
                 </span>
               </MarkerLabel>
+            </MapMarker>
+          ))}
+
+          {/* Challenge zone centre markers */}
+          {showZones && challengeZones.map(zone => (
+            <MapMarker
+              key={`zone-marker-${zone.id}`}
+              longitude={zone.centerCoord[0]}
+              latitude={zone.centerCoord[1]}
+              onClick={() => setSelectedZone(
+                selectedZone === zone.id ? null : zone.id
+              )}
+            >
+              <MarkerContent>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '2px',
+                  cursor: 'pointer',
+                }}>
+                  {/* Pulsing zone badge */}
+                  <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
+                    background: selectedZone === zone.id
+                      ? zone.color
+                      : 'rgba(10,10,10,0.88)',
+                    border: `2px solid ${zone.color}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '20px',
+                    boxShadow: selectedZone === zone.id
+                      ? `0 0 20px ${zone.color}66`
+                      : `0 0 12px ${zone.color}33`,
+                    transition: 'all 200ms ease',
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    position: 'relative',
+                  }}>
+                    {zone.badge}
+
+                    {/* Pulse ring animation */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: '-6px',
+                      borderRadius: '16px',
+                      border: `1.5px solid ${zone.color}`,
+                      opacity: 0.4,
+                      animation: 'zonePulse 2s ease-out infinite',
+                    }} />
+                    <div style={{
+                      position: 'absolute',
+                      inset: '-12px',
+                      borderRadius: '20px',
+                      border: `1px solid ${zone.color}`,
+                      opacity: 0.2,
+                      animation: 'zonePulse 2s ease-out infinite 0.5s',
+                    }} />
+                  </div>
+
+                  {/* Zone name pill */}
+                  <div style={{
+                    background: 'rgba(10,10,10,0.88)',
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    border: `0.5px solid ${zone.color}44`,
+                    borderRadius: '100px',
+                    padding: '3px 8px',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    <span style={{
+                      fontFamily: C.font,
+                      fontSize: '10px',
+                      fontWeight: 600,
+                      color: zone.color,
+                    }}>
+                      {zone.name.split(' ').slice(0, 2).join(' ')}
+                    </span>
+                  </div>
+                </div>
+              </MarkerContent>
             </MapMarker>
           ))}
 
@@ -788,6 +994,35 @@ export default function MapsPage() {
             msOverflowStyle: 'none',
           }}
         >
+          <button
+            onPointerDown={e => {
+              e.stopPropagation()
+              e.preventDefault()
+              setShowZones(p => !p)
+            }}
+            style={{
+              flexShrink: 0,
+              height: '34px',
+              padding: '0 12px',
+              background: showZones ? 'rgba(0,102,255,0.15)' : 'rgba(10,10,10,0.92)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: `1px solid ${showZones ? C.accent : 'rgba(255,255,255,0.18)'}`,
+              borderRadius: '100px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              cursor: 'pointer',
+              fontFamily: C.font,
+              fontSize: '13px',
+              fontWeight: showZones ? 600 : 400,
+              color: showZones ? C.accent : C.text,
+              whiteSpace: 'nowrap',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+          >
+            ⚡ Challenge Zones
+          </button>
           {Object.entries(filterDropdowns).map(([key, config]) => (
             <FilterDropdown
               key={key}
@@ -1048,6 +1283,189 @@ export default function MapsPage() {
               >
                 Start
               </button>
+            </div>
+          )
+        })()}
+
+        {selectedZone !== null && (() => {
+          const zone = challengeZones.find(z => z.id === selectedZone)!
+          const diff = getDifficultyStyle(zone.difficulty)
+
+          return (
+            <div style={{
+              margin: '0 16px 12px',
+              background: '#1a1a1a',
+              borderRadius: '16px',
+              border: `1px solid ${zone.color}44`,
+              overflow: 'hidden',
+              animation: 'slideUp 200ms ease',
+            }}>
+              {/* Coloured top accent bar */}
+              <div style={{
+                height: '3px',
+                background: zone.color,
+                width: '100%',
+              }} />
+
+              <div style={{
+                padding: '14px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+              }}>
+
+                {/* Header row */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  gap: '8px',
+                }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    {/* Active challenge pill */}
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      background: `${zone.color}18`,
+                      border: `1px solid ${zone.color}44`,
+                      borderRadius: '100px',
+                      padding: '2px 8px',
+                      marginBottom: '6px',
+                    }}>
+                      <div style={{
+                        width: '5px',
+                        height: '5px',
+                        borderRadius: '50%',
+                        background: zone.color,
+                        animation: 'blink 1.5s ease infinite',
+                      }} />
+                      <span style={{
+                        fontFamily: C.font,
+                        fontSize: '10px',
+                        fontWeight: 600,
+                        color: zone.color,
+                        letterSpacing: '0.05em',
+                      }}>
+                        ACTIVE CHALLENGE ZONE
+                      </span>
+                    </div>
+
+                    <h3 style={{
+                      fontFamily: C.font,
+                      fontWeight: 700,
+                      fontSize: '15px',
+                      color: C.text,
+                      margin: 0,
+                      lineHeight: 1.2,
+                    }}>
+                      {zone.name}
+                    </h3>
+                  </div>
+
+                  {/* Badge */}
+                  <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '10px',
+                    background: `${zone.color}18`,
+                    border: `1px solid ${zone.color}44`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '22px',
+                    flexShrink: 0,
+                  }}>
+                    {zone.badge}
+                  </div>
+                </div>
+
+                {/* Stats row */}
+                <div style={{
+                  display: 'flex',
+                  gap: '8px',
+                  flexWrap: 'wrap',
+                }}>
+                  {/* Difficulty */}
+                  <span style={{
+                    fontFamily: C.font,
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: diff.color,
+                    background: diff.bg,
+                    padding: '3px 10px',
+                    borderRadius: '100px',
+                  }}>
+                    {zone.difficulty}
+                  </span>
+
+                  {/* Distance */}
+                  <span style={{
+                    fontFamily: C.mono,
+                    fontSize: '11px',
+                    color: C.muted,
+                    background: 'rgba(255,255,255,0.06)',
+                    padding: '3px 10px',
+                    borderRadius: '100px',
+                  }}>
+                    📍 {zone.distance}
+                  </span>
+
+                  {/* Participants */}
+                  <span style={{
+                    fontFamily: C.mono,
+                    fontSize: '11px',
+                    color: C.muted,
+                    background: 'rgba(255,255,255,0.06)',
+                    padding: '3px 10px',
+                    borderRadius: '100px',
+                  }}>
+                    👥 {zone.participants}
+                  </span>
+
+                  {/* Time left */}
+                  <span style={{
+                    fontFamily: C.mono,
+                    fontSize: '11px',
+                    color: '#F5A623',
+                    background: 'rgba(245,166,35,0.08)',
+                    padding: '3px 10px',
+                    borderRadius: '100px',
+                  }}>
+                    ⏱ {zone.timeLeft}
+                  </span>
+                </div>
+
+                {/* Join button */}
+                <button
+                  style={{
+                    width: '100%',
+                    height: '44px',
+                    background: zone.color,
+                    border: 'none',
+                    borderRadius: '100px',
+                    fontFamily: C.font,
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    transition: 'opacity 200ms ease',
+                  }}
+                  onTouchStart={e => {
+                    e.currentTarget.style.opacity = '0.8'
+                  }}
+                  onTouchEnd={e => {
+                    e.currentTarget.style.opacity = '1'
+                  }}
+                >
+                  <span style={{ fontSize: '14px' }}>⚡</span>
+                  Join Challenge Zone
+                </button>
+              </div>
             </div>
           )
         })()}

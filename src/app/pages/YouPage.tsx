@@ -1,4 +1,4 @@
-import { Settings, Lock, Sparkles, CircleDollarSign } from 'lucide-react'
+import { Settings, Lock, Sparkles } from 'lucide-react'
 
 // Constants
 const C = {
@@ -15,10 +15,8 @@ const NFT_BADGE = "/nft-badge.jpg" // Using general placeholder matching standar
 
 export default function YouPage() {
   const earnedBadges = [
-    { id: 1, title: 'Yarra River 10K', tier: 'GOLD', date: 'Apr 8', color: '#FFD700' },
-    { id: 2, title: 'St Kilda Sprint', tier: 'SILVER', date: 'Apr 4', color: '#C0C0C0' },
-    { id: 3, title: 'Dandenong Ultra', tier: 'BRONZE', date: 'Mar 30', color: '#CD7F32' },
-    { id: 4, title: 'Capital City Loop', tier: 'GOLD', date: 'Mar 22', color: '#FFD700' },
+    { id: 1, title: 'Yarra River 10K', tier: 'GOLD', date: 'Apr 8, 2026', color: '#FFD700', shadow: 'rgba(0,102,255,0.5)' },
+    { id: 2, title: 'St Kilda Sprint', tier: 'SILVER', date: 'Apr 4, 2026', color: '#C0C0C0', shadow: 'rgba(192,192,192,0.4)' },
   ]
   
   const lockedBadges = [
@@ -71,7 +69,7 @@ export default function YouPage() {
             NP
           </div>
           <div style={{ textAlign: 'center' }}>
-            <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 700 }}>Nish Patel</h2>
+            <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 700 }}>Marcus Rashford</h2>
             <p style={{ margin: '4px 0 0', fontSize: '14px', color: C.muted }}>Melbourne, AU · Member since 2026</p>
           </div>
         </div>
@@ -130,10 +128,10 @@ export default function YouPage() {
                   src={NFT_BADGE} 
                   alt={badge.title} 
                   style={{
-                    width: '80px',
-                    height: '80px',
+                    width: '90px',
+                    height: '90px',
                     objectFit: 'contain',
-                    filter: 'drop-shadow(0 0 12px rgba(0, 102, 255, 0.5))',
+                    filter: `drop-shadow(0 0 12px ${badge.shadow})`,
                     marginBottom: '16px',
                   }} 
                 />
@@ -171,7 +169,7 @@ export default function YouPage() {
                       width: '100%',
                       height: '100%',
                       objectFit: 'contain',
-                      opacity: 0.25,
+                      opacity: 0.2,
                     }} 
                   />
                   <div style={{
@@ -190,7 +188,7 @@ export default function YouPage() {
         </div>
       </div>
 
-      {/* BOTTOM — TWO BUTTONS FIXED */}
+      {/* BOTTOM — ONE BUTTON FIXED */}
       <div style={{
         position: 'fixed',
         bottom: 'calc(60px + env(safe-area-inset-bottom))',
@@ -222,24 +220,6 @@ export default function YouPage() {
           cursor: 'pointer',
         }}>
           <Sparkles size={20} /> Collect NFT Badge
-        </button>
-        <button style={{
-          width: '100%',
-          height: '52px',
-          background: 'transparent',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: '100px',
-          color: '#fff',
-          fontSize: '16px',
-          fontWeight: 500,
-          fontFamily: C.font,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          cursor: 'pointer',
-        }}>
-          <CircleDollarSign size={20} /> Get Physical Coin
         </button>
       </div>
     </div>

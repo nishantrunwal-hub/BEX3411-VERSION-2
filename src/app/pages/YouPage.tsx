@@ -11,7 +11,8 @@ const C = {
   mono: 'Space Mono, monospace',
 }
 
-const NFT_BADGE = "/nft-badge.jpg" // Using general placeholder matching standard structure for uploaded attached assets.
+const nftBadge = "/nft-badge.jpg"
+console.log('NFT Badge path:', nftBadge)
 
 export default function YouPage() {
   const earnedBadges = [
@@ -124,16 +125,21 @@ export default function YouPage() {
                 border: '1px solid rgba(0, 102, 255, 0.4)',
                 boxShadow: '0 0 20px rgba(0, 102, 255, 0.15)',
               }}>
-                <img 
-                  src={NFT_BADGE} 
-                  alt={badge.title} 
+                <img
+                  src={nftBadge}
+                  alt="Ascent NFT Badge"
+                  onError={(e) => {
+                    console.error('NFT Badge failed to load:', e)
+                    e.currentTarget.style.border = '2px solid red'
+                  }}
                   style={{
-                    width: '90px',
-                    height: '90px',
+                    width: '100px',
+                    height: '100px',
                     objectFit: 'contain',
-                    filter: `drop-shadow(0 0 12px ${badge.shadow})`,
-                    marginBottom: '16px',
-                  }} 
+                    display: 'block',
+                    margin: '0 auto 12px auto',
+                    filter: `drop-shadow(0 0 16px ${badge.shadow || 'rgba(0,102,255,0.6)'})`,
+                  }}
                 />
                 <span style={{
                   fontSize: '11px',
@@ -163,7 +169,7 @@ export default function YouPage() {
               }}>
                 <div style={{ position: 'relative', width: '80px', height: '80px', marginBottom: '16px' }}>
                   <img 
-                    src={NFT_BADGE} 
+                    src={nftBadge} 
                     alt="Locked Badge" 
                     style={{
                       width: '100%',

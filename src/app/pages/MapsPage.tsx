@@ -374,17 +374,26 @@ function RouteCard({
       onClick={onSelect}
       style={{
         flexShrink: 0,
-        width: '260px',
-        background: isSelected ? '#1a1a2e' : C.card,
+        width: '300px',
+        background: isSelected ? 'rgba(0,102,255,0.08)' : '#1a1a1a',
         borderRadius: '14px',
-        border: `1px solid ${isSelected ? C.accent : C.border}`,
+        border: `1px solid ${isSelected ? C.accent : 'rgba(255,255,255,0.08)'}`,
+        display: 'flex',
+        flexDirection: 'row',
         overflow: 'hidden',
         cursor: 'pointer',
         transition: 'border-color 200ms ease',
+        height: '90px',
       }}
     >
-      {/* Image */}
-      <div style={{ position: 'relative', height: '110px' }}>
+      {/* Image — left side */}
+      <div style={{
+        width: '90px',
+        height: '90px',
+        flexShrink: 0,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
         <img
           src={route.image}
           alt={route.name}
@@ -394,169 +403,128 @@ function RouteCard({
             objectFit: 'cover',
           }}
         />
-        {/* Save */}
-        <button
-          onClick={e => { e.stopPropagation(); setSaved(p => !p) }}
-          style={{
-            position: 'absolute',
-            top: '8px',
-            right: '8px',
-            width: '28px',
-            height: '28px',
-            borderRadius: '50%',
-            background: 'rgba(0,0,0,0.65)',
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          <Bookmark
-            size={13}
-            color={saved ? C.accent : '#ffffff'}
-            fill={saved ? C.accent : 'none'}
-          />
-        </button>
-
-        {/* Surface badge */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '8px',
-            left: '8px',
-            background: 'rgba(0,0,0,0.72)',
-            backdropFilter: 'blur(4px)',
-            borderRadius: '100px',
-            padding: '3px 10px',
-            fontFamily: C.font,
-            fontSize: '10px',
-            fontWeight: 500,
-            color: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-          }}
-        >
-          <div
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: C.accent,
-            }}
-          />
-          {route.surface}
-        </div>
       </div>
 
-      {/* Content */}
-      <div style={{ padding: '10px 12px 12px' }}>
-        <h3
-          style={{
+      {/* Info — right side */}
+      <div style={{
+        flex: 1,
+        padding: '10px 12px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        minWidth: 0,
+        overflow: 'hidden',
+      }}>
+
+        {/* Route name */}
+        <p style={{
+          fontFamily: C.font,
+          fontWeight: 700,
+          fontSize: '14px',
+          color: C.text,
+          margin: 0,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}>
+          {route.name}
+        </p>
+
+        {/* Activity icon + difficulty + stats */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          flexWrap: 'nowrap',
+        }}>
+          {/* Activity icon */}
+          <span style={{ fontSize: '13px', flexShrink: 0 }}>
+            {route.type === 'Running'      ? '🏃' :
+             route.type === 'Cycling'      ? '🚴' :
+             route.type === 'Hiking'       ? '🥾' :
+             route.type === 'Trail Running'? '⛰' : '🏃'}
+          </span>
+
+          {/* Difficulty pill */}
+          <span style={{
             fontFamily: C.font,
-            fontWeight: 700,
-            fontSize: '14px',
-            color: C.text,
-            margin: '0 0 3px 0',
-            lineHeight: 1.2,
+            fontSize: '11px',
+            fontWeight: 600,
+            color: '#ffffff',
+            background: route.difficulty === 'Easy'     ? '#2d6a4f' :
+                        route.difficulty === 'Moderate'  ? '#b5451b' :
+                        route.difficulty === 'Hard'      ? '#7b2d2d' : '#444',
+            padding: '2px 8px',
+            borderRadius: '4px',
+            flexShrink: 0,
+          }}>
+            {route.difficulty}
+          </span>
+
+          {/* Stats inline */}
+          <span style={{
+            fontFamily: C.font,
+            fontSize: '12px',
+            color: C.muted,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-          }}
-        >
-          {route.name}
-        </h3>
-
-        {/* Difficulty + distance + time */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            marginBottom: '6px',
-            flexWrap: 'wrap',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: C.font,
-              fontSize: '11px',
-              fontWeight: 600,
-              color: diff.color,
-              background: diff.bg,
-              padding: '2px 8px',
-              borderRadius: '100px',
-            }}
-          >
-            {route.difficulty}
-          </span>
-          <span
-            style={{
-              fontFamily: C.font,
-              fontSize: '12px',
-              color: C.muted,
-            }}
-          >
+          }}>
             {route.distance} · {route.elevation} · {route.duration}
           </span>
         </div>
 
-        {/* Location */}
-        <div
-          style={{
+        {/* Location + Made for you */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <div style={{
             display: 'flex',
             alignItems: 'center',
             gap: '4px',
-            marginBottom: route.madeForYou ? '6px' : '0',
-          }}
-        >
-          <MapPin size={10} color={C.muted} />
-          <span
-            style={{
+          }}>
+            <MapPin size={10} color={C.muted} />
+            <span style={{
               fontFamily: C.font,
               fontSize: '11px',
               color: C.muted,
-            }}
-          >
-            {route.location}
-          </span>
-        </div>
+              whiteSpace: 'nowrap',
+            }}>
+              Current Location
+            </span>
+          </div>
 
-        {/* Made for you */}
-        {route.madeForYou && (
-          <div
-            style={{
+          {route.madeForYou && (
+            <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
-            }}
-          >
-            <div
-              style={{
+              gap: '4px',
+            }}>
+              <div style={{
                 width: '16px',
                 height: '16px',
-                borderRadius: '50%',
-                background: C.accentDim,
+                borderRadius: '4px',
+                background: 'rgba(0,102,255,0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}
-            >
-              <Star size={9} color={C.accent} fill={C.accent} />
-            </div>
-            <span
-              style={{
+                fontSize: '9px',
+              }}>
+                ▲
+              </div>
+              <span style={{
                 fontFamily: C.font,
                 fontSize: '11px',
                 fontWeight: 600,
                 color: C.accent,
-              }}
-            >
-              Made for you
-            </span>
-          </div>
-        )}
+              }}>
+                Made for you
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -1109,17 +1077,23 @@ export default function MapsPage() {
             padding: '4px 16px 16px',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',  // smooth iOS swipe
+            scrollSnapType: 'x mandatory',      // snaps between cards
           }}
         >
           {nearbyRoutes.map(route => (
-            <RouteCard
+            <div
               key={route.id}
-              route={route}
-              isSelected={selectedRoute === route.id}
-              onSelect={() => setSelectedRoute(
-                selectedRoute === route.id ? null : route.id
-              )}
-            />
+              style={{ scrollSnapAlign: 'start' }}  // each card snaps
+            >
+              <RouteCard
+                route={route}
+                isSelected={selectedRoute === route.id}
+                onSelect={() => setSelectedRoute(
+                  selectedRoute === route.id ? null : route.id
+                )}
+              />
+            </div>
           ))}
         </div>
       </div>

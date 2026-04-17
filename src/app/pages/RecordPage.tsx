@@ -81,19 +81,22 @@ export default function RecordPage() {
   // Orb colours per state
   const orbColors = {
     idle: {
-      c1: 'oklch(55% 0.18 250)',  // deep blue
-      c2: 'oklch(60% 0.15 220)',  // blue
-      c3: 'oklch(58% 0.20 260)',  // indigo blue
+      bg: 'transparent',
+      c1: 'oklch(55% 0.22 250)',
+      c2: 'oklch(58% 0.20 230)',
+      c3: 'oklch(52% 0.25 260)',
     },
     active: {
-      c1: 'oklch(60% 0.20 250)',  // bright blue
-      c2: 'oklch(65% 0.18 200)',  // electric blue
-      c3: 'oklch(62% 0.22 230)',  // vivid blue
+      bg: 'transparent',
+      c1: 'oklch(62% 0.25 245)',
+      c2: 'oklch(65% 0.22 220)',
+      c3: 'oklch(60% 0.28 255)',
     },
     complete: {
-      c1: 'oklch(65% 0.18 160)',  // green
-      c2: 'oklch(70% 0.15 140)',  // teal green
-      c3: 'oklch(68% 0.20 170)',  // emerald
+      bg: 'transparent',
+      c1: 'oklch(65% 0.22 155)',
+      c2: 'oklch(68% 0.20 140)',
+      c3: 'oklch(63% 0.25 165)',
     },
   }
 
@@ -186,72 +189,87 @@ export default function RecordPage() {
 
       {/* CENTRE — Siri Orb NFC ring */}
       <div
-        onClick={handleOrbTap}
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '32px',
-          cursor: 'pointer',
           WebkitTapHighlightColor: 'transparent',
-          position: 'relative',
         }}
       >
-        {/* Outer tap ring — pulsing */}
-        {state === 'idle' && (
-          <>
-            <div style={{
-              position: 'absolute',
-              width: '260px',
-              height: '260px',
-              borderRadius: '50%',
-              border: '1px solid rgba(0,102,255,0.2)',
-              animation: 'ringPulse 2s ease-out infinite',
-              pointerEvents: 'none',
-            }} />
-            <div style={{
-              position: 'absolute',
-              width: '300px',
-              height: '300px',
-              borderRadius: '50%',
-              border: '1px solid rgba(0,102,255,0.1)',
-              animation: 'ringPulse 2s ease-out infinite 0.5s',
-              pointerEvents: 'none',
-            }} />
-          </>
-        )}
-
-        {/* Siri Orb */}
-        <SiriOrb
-          size="220px"
-          animationDuration={state === 'active' ? 8 : 20}
-          colors={orbColors[state]}
-          className="drop-shadow-2xl"
-        />
-
-        {/* Ascent logo overlay on orb */}
         <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: 'relative',
+          width: '180px',
+          height: '180px',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          gap: '4px',
-          pointerEvents: 'none',
-        }}>
-          <img
-            src="/ascent-logo.png"
-            alt="Ascent"
-            style={{
-              width: '44px',
-              height: '44px',
-              objectFit: 'contain',
-              filter: 'brightness(10)',
-              opacity: 0.9,
-            }}
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+        onClick={handleOrbTap}
+        >
+          {/* Outer tap ring — pulsing */}
+          {state === 'idle' && (
+            <>
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '260px',
+                height: '260px',
+                borderRadius: '50%',
+                border: '1px solid rgba(0,102,255,0.2)',
+                animation: 'ringPulse 2s ease-out infinite',
+                pointerEvents: 'none',
+              }} />
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '300px',
+                height: '300px',
+                borderRadius: '50%',
+                border: '1px solid rgba(0,102,255,0.1)',
+                animation: 'ringPulse 2s ease-out infinite 0.5s',
+                pointerEvents: 'none',
+              }} />
+            </>
+          )}
+
+          <SiriOrb
+            size="180px"
+            animationDuration={state === 'active' ? 8 : 20}
+            colors={orbColors[state]}
           />
+
+          {/* Logo centred over orb */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 10,
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <img
+              src="/ascent-logo.png"
+              alt="Ascent"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+              style={{
+                width: '52px',
+                height: '52px',
+                objectFit: 'contain',
+                filter: 'brightness(100)',
+              }}
+            />
+          </div>
         </div>
 
         {/* Tap instruction below orb */}

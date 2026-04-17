@@ -75,6 +75,10 @@ const SiriOrb: React.FC<SiriOrbProps> = ({
         {
           width: size,
           height: size,
+          borderRadius: '50%',
+          overflow: 'hidden',
+          position: 'relative',
+          flexShrink: 0,
           "--bg": finalColors.bg,
           "--c1": finalColors.c1,
           "--c2": finalColors.c2,
@@ -85,13 +89,7 @@ const SiriOrb: React.FC<SiriOrbProps> = ({
         } as React.CSSProperties
       }
     >
-      <style jsx>{`
-        @property --angle {
-          syntax: "<angle>";
-          inherits: false;
-          initial-value: 0deg;
-        }
-
+      <style>{`
         .siri-orb {
           display: grid;
           grid-template-areas: "stack";
@@ -160,7 +158,7 @@ const SiriOrb: React.FC<SiriOrbProps> = ({
               transparent 50%
             );
           filter: blur(var(--blur-amount)) contrast(var(--contrast-amount)) saturate(1.2);
-          animation: rotate var(--animation-duration) linear infinite;
+          animation: siri-rotate var(--animation-duration) linear infinite;
           transform: translateZ(0);
           will-change: transform;
         }
@@ -179,15 +177,6 @@ const SiriOrb: React.FC<SiriOrbProps> = ({
             transparent 60%
           );
           mix-blend-mode: overlay;
-        }
-
-        @keyframes rotate {
-          from {
-            --angle: 0deg;
-          }
-          to {
-            --angle: 360deg;
-          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -275,7 +264,7 @@ const SiriOrbDemo: React.FC = () => {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
           height: 20px;

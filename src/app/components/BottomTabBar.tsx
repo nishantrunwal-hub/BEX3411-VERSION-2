@@ -6,7 +6,7 @@ const tabs = [
   { id: 'maps',   label: 'Maps',   icon: Map,       path: '/maps'   },
   { id: 'record', label: 'Record', icon: Radio,     path: '/record' },
   { id: 'challenges', label: 'Challenges', icon: Trophy, path: '/groups' },
-  { id: 'you',    label: 'You',    icon: BarChart2,  path: '/profile'},
+  { id: 'you',    label: 'You',    icon: BarChart2,  path: '/you'},
 ]
 
 export default function BottomTabBar() {
@@ -21,7 +21,7 @@ export default function BottomTabBar() {
       case '/activities':  return 'maps' // from user
       case '/community':   return 'challenges' // from user
       case '/record':      return 'record'
-      case '/profile':     return 'you'
+      case '/you':         return 'you'
       default:             return 'home'
     }
   }

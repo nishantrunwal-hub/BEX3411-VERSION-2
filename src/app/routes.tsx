@@ -5,6 +5,7 @@ import MapsPage from './pages/MapsPage';
 import RecordPage from './pages/RecordPage';
 import GroupsPage from './pages/GroupsPage';
 import ProfilePage from './pages/ProfilePage';
+import YouPage from './pages/YouPage';
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       { path: 'record', Component: RecordPage },
       { path: 'groups', Component: GroupsPage },
       { path: 'profile', Component: ProfilePage },
+      { path: 'you', Component: YouPage },
     ],
   },
 ]);

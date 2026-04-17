@@ -5,6 +5,7 @@ import MapsPage from './pages/MapsPage';
 import GroupsPage from './pages/GroupsPage';
 import RecordPage from './pages/RecordPage';
 import ProfilePage from './pages/ProfilePage';
+import YouPage from './pages/YouPage';
 
 function AppContent() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function AppContent() {
         <Route path="/groups"      element={<GroupsPage />} />
         <Route path="/record"      element={<RecordPage />} />
         <Route path="/profile"     element={<ProfilePage />} />
+        <Route path="/you"         element={<YouPage />} />
         <Route path="*"            element={<Navigate to="/home" replace />} />
       </Routes>
 
